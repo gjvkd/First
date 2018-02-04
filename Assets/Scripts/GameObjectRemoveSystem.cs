@@ -28,7 +28,7 @@ public class GameObjectRemoveSystem : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-
+        
      
 	}
 	

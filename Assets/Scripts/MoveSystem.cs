@@ -19,7 +19,7 @@ public class MoveSystem : MonoBehaviour
     // 이동 제한
     Vector3 m_vecLeft = new Vector3(-4f, 0f, 0f);
     Vector3 m_vecRight = new Vector3(4f, 0f, 0f);
-    Vector3 m_vecForward = new Vector3(0f, 0f, 4f);
+    Vector3 m_vecForward = new Vector3(0f, 0f, -3f);
     Vector3 m_vecBack = new Vector3(0f, 0f, -5f);
 
 
@@ -74,48 +74,45 @@ public class MoveSystem : MonoBehaviour
         fZ = Input.GetAxisRaw("Horizontal");
 
         Vector3 vecDir = Vector3.zero;
+        float fDirPOS = 0f;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            //m_vLookdirection = fX * Vector3.left;
-
             vecDir = Vector3.left * m_fMoveSpeed * Time.deltaTime;
+            fDirPOS = this.transform.position.x + vecDir.x;
 
-            if (m_vecLeft.x < vecDir.x)
+            if (m_vecLeft.x < fDirPOS)
                 this.transform.Translate(vecDir);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            //m_vLookdirection = fX * Vector3.right;
-
             vecDir = Vector3.right * m_fMoveSpeed * Time.deltaTime;
+            fDirPOS = this.transform.position.x + vecDir.x;
 
-            if (vecDir.x < m_vecRight.x)
+            if (fDirPOS < m_vecRight.x)
                 this.transform.Translate(vecDir);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            //m_vLookdirection = fX * Vector3.forward;
-
             vecDir = Vector3.forward * m_fMoveSpeed * Time.deltaTime;
+            fDirPOS = this.transform.position.z + vecDir.z;
 
-            if (vecDir.z < m_vecForward.z)
+            if (fDirPOS < m_vecForward.z)
+            {
                 this.transform.Translate(vecDir);
-            
-            m_objBulletPoint.transform.Rotate(new Vector3(-fX / 4f, 0, 0));
+                m_objBulletPoint.transform.Rotate(new Vector3(-fX / 2f, 0, 0));
+            }
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            //m_vLookdirection = fX * Vector3.back;
-
             vecDir = Vector3.back * m_fMoveSpeed * Time.deltaTime;
+            fDirPOS = this.transform.position.z + vecDir.z;
 
-            if (m_vecBack.z < vecDir.z)
+            if (m_vecBack.z < fDirPOS)
+            {
                 this.transform.Translate(vecDir);
-            
-            m_objBulletPoint.transform.Rotate(new Vector3(-fX / 4f, 0, 0));
+                m_objBulletPoint.transform.Rotate(new Vector3(-fX / 2f, 0, 0));
+            }
         }
-
-        Debug.Log(vecDir);
     }
 }
